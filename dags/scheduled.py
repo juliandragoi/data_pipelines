@@ -22,17 +22,26 @@ t1 = SSHOperator(
     command='sudo apt-get update && sudo apt-get upgrade -y',
     dag=update_servers_dag)
 
+
+t2 = BashOperator(
+    task_id='pi2_update',
+    bash_command='sudo apt-get update && sudo apt-get upgrade -y',
+    dag=update_servers_dag)
+
+
 t3 = SSHOperator(
     ssh_conn_id='pi3_ssh',
     task_id='pi3_update',
     command='sudo apt-get update && sudo apt-get upgrade -y',
     dag=update_servers_dag)
 
+
 t4 = SSHOperator(
     ssh_conn_id='pi4_ssh',
     task_id='pi4_update',
     command='sudo apt-get update && sudo apt-get upgrade -y',
     dag=update_servers_dag)
+
 
 t5 = SSHOperator(
     ssh_conn_id='pi5_ssh',
