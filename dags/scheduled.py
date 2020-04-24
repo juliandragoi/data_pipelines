@@ -12,6 +12,7 @@ default_args = {
 update_servers_dag = DAG(
     'update_servers',
     schedule_interval="0 4 * * *",
+    catchup=False,
     default_args=default_args
 )
 
