@@ -26,3 +26,9 @@ def get_engine():
     engine = create_engine(con)
     return engine
 
+
+
+def get_news_api_key():
+
+    return Variable.get('secret_news_api_key')
+

@@ -1,20 +1,12 @@
 
 from newsapi import NewsApiClient
-from AuthFile import get_news_key, get_news_engine
+# from AuthFile import get_news_key, get_news_engine
+from helpers import get_news_api_key, get_engine
 import pandas as pd
 from datetime import datetime
 
-
-# --------------------------------------------------------------------------------------------------
-# This is the generic way of calling the api
-# --------------------------------------------------------------------------------------------------
-# url = ('https://newsapi.org/v2/everything?sources='+sources_list_string+get_news_key())
-# response = requests.get(url)
-# print(response.json())
-# --------------------------------------------------------------------------------------------------
-
 # Init
-newsapi = NewsApiClient(api_key=get_news_key())
+newsapi = NewsApiClient(api_key=get_news_api_key())
 
 
 def get_sources():
@@ -51,4 +43,4 @@ df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
 
 print(df)
 
-df.to_sql(schema='staging', name='api_news', con=get_news_engine(), if_exists='replace', index=False)
+df.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace', index=False)

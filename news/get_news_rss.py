@@ -1,10 +1,8 @@
 import feedparser
 import pandas as pd
 from datetime import datetime
-from AuthFile import get_news_engine
-from bs4 import BeautifulSoup
-import re
-from io import StringIO
+# from AuthFile import get_news_engine
+from helpers import get_engine
 
 reuters_feeds = ['http://feeds.reuters.com/reuters/UKTopNews'
             , 'http://feeds.reuters.com/reuters/UKdomesticNews'
@@ -179,4 +177,4 @@ all_frames = pd.concat(all_dfs)
 print(all_frames)
 
 
-all_frames.to_sql(schema='staging', name='rrs_news', con=get_news_engine(), if_exists='replace', index=False)
+all_frames.to_sql(schema='staging', name='rrs_news', con=get_engine(), if_exists='replace', index=False)

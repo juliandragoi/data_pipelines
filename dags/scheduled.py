@@ -1,13 +1,25 @@
+import os
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
+from airflow.models import Variable
 from airflow.utils.dates import days_ago
+from airflow.operators.bash_operator import BashOperator
 from airflow.contrib.operators.ssh_operator import SSHOperator
+from airflow.operators.postgres_operator import PostgresOperator
+
 
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
     'start_date': days_ago(2)
 }
+
+db_connection = 'pi4_postgresdb'
+main_dir = '/home/pi/data_pipelines'
+
+
+# **********************
+# daily server update
+# **********************
 
 update_servers_dag = DAG(
     'update_servers',
@@ -50,3 +62,38 @@ t5 = SSHOperator(
     task_id='pi5_update',
     command=cmd,
     dag=update_servers_dag)
+
+
+# **********************
+# news feeds
+# **********************
+
+news_grab_dag = DAG(
+    'news_grab',
+    schedule_interval="0 4 * * *",
+    catchup=False,
+    template_searchpath=os.path.join(main_dir),
+    default_args=default_args
+)
+
+rss_news_task = BashOperator(
+    task_id='rrs_news',
+    bash_command=str('python ' + os.path.join(main_dir, "news","get_news_rss.py ")),
+    dag=news_grab_dag)
+
+api_news_task = BashOperator(
+    task_id='api_news',
+    bash_command=str('python ' + os.path.join(main_dir, "news","get_news.py ")),
+    dag=news_grab_dag)
+
+news_raw_task = PostgresOperator(
+        task_id='news_raw_insert',
+        sql=os.path.join('transform','news_transform.sql'),
+        postgres_conn_id=db_connection,
+        autocommit=True,
+        dag=news_grab_dag
+    )
+
+
+rss_news_task.set_downstream(news_raw_task)
+api_news_task.set_downstream(news_raw_task)
