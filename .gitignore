@@ -1,2 +1,6 @@
 .idea/*
 AuthFile.py
+twitter/account_tweets/
+twitter/audiences/
+test.py
+__pycache__
