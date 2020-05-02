@@ -78,12 +78,12 @@ news_grab_dag = DAG(
 
 rss_news_task = BashOperator(
     task_id='rrs_news',
-    bash_command=str('python ' + os.path.join(main_dir, "news","get_news_rss.py ")),
+    bash_command=str('python3 ' + os.path.join(main_dir, "news","get_news_rss.py ")),
     dag=news_grab_dag)
 
 api_news_task = BashOperator(
     task_id='api_news',
-    bash_command=str('python ' + os.path.join(main_dir, "news","get_news.py ")),
+    bash_command=str('python3 ' + os.path.join(main_dir, "news","get_news.py ")),
     dag=news_grab_dag)
 
 news_raw_task = PostgresOperator(
