@@ -1,6 +1,8 @@
 
 from newsapi import NewsApiClient
-from AuthFile import get_news_key
+from AuthFile import get_news_key, get_news_engine
+import pandas as pd
+from datetime import datetime
 
 
 # --------------------------------------------------------------------------------------------------
@@ -35,7 +37,18 @@ def get_articles_content():
 
     content = newsapi.get_everything(sources=sources_list_string,language='en', page_size=100)
 
-    return(content['articles'])
+    return content['articles']
 
 
-get_sources()
+posts = []
+for i in get_articles_content():
+    post = i['title'],i['source']['name'], i['description'], i['content']
+    posts.append(post)
+
+
+df = pd.DataFrame(posts, columns=['title', 'brand', 'description', 'content'])
+df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+
+print(df)
+
+df.to_sql(schema='staging', name='api_news', con=get_news_engine(), if_exists='replace', index=False)
