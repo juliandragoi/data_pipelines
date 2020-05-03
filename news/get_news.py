@@ -1,9 +1,11 @@
-
+import sys
+sys.path.append("..")
 from newsapi import NewsApiClient
 # from AuthFile import get_news_key, get_news_engine
-from ..helpers import get_news_api_key, get_engine
+
 import pandas as pd
 from datetime import datetime
+from ..helpers import get_news_api_key, get_engine
 
 # Init
 newsapi = NewsApiClient(api_key=get_news_api_key())
