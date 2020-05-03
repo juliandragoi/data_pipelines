@@ -1,7 +1,7 @@
 
 from newsapi import NewsApiClient
 # from AuthFile import get_news_key, get_news_engine
-from helpers import get_news_api_key, get_engine
+from ..helpers import get_news_api_key, get_engine
 import pandas as pd
 from datetime import datetime
 

@@ -70,7 +70,7 @@ t5 = SSHOperator(
 
 news_grab_dag = DAG(
     'news_grab',
-    schedule_interval=None,
+    schedule_interval='0 6,8,10,12,14,17,18,23 * * *',
     catchup=False,
     template_searchpath=os.path.join(main_dir),
     default_args=default_args
