@@ -23,6 +23,7 @@ main_dir = '/home/pi/data_pipelines'
 
 update_servers_dag = DAG(
     'update_servers',
+    schedule_interval="0 4 * * *",
     catchup=False,
     default_args=default_args
 )
@@ -69,7 +70,7 @@ t5 = SSHOperator(
 
 news_grab_dag = DAG(
     'news_grab',
-    schedule_interval="0 4 * * *",
+    schedule_interval=None,
     catchup=False,
     template_searchpath=os.path.join(main_dir),
     default_args=default_args
