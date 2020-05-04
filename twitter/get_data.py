@@ -30,9 +30,9 @@ def get_audience(file_name, num_accounts):
     file = os.path.join('audiences',file_name)
     output_list = []
     df = pd.read_csv(file)
-    df = df.sort_values('importance', ascending=False)
-    df = df[['twitter_id']].drop_duplicates()
-    res = df['twitter_id'].head(num_accounts)
+    # df = df.sort_values('importance', ascending=False)
+    df = df[['fan_id']].drop_duplicates()
+    res = df['fan_id'].head(num_accounts)
     for i in res:
         print(i)
         output_list.append(i)
@@ -52,12 +52,13 @@ def get_audience_with_filter(file, audience_type, num_accounts):
 def get_tweets(auth, id, num_tweets):
     full = []
     for status in tweepy.Cursor(auth.user_timeline, id=id, tweet_mode="extended").items(num_tweets):
-        # print(status)
         data = status.user.id, status.full_text, status.entities['hashtags'], status.entities['user_mentions'], status.user.location
         print(data)
         full.append(data)
+
     df = pd.DataFrame(full)
     df.columns = ['id', 'tweet_text', 'hashtags', 'user_mentions','location']
+
     return df
 
 
@@ -114,20 +115,39 @@ def get_all_tweets(auth, ids, num_tweets):
         os.makedirs(folder)
     now = datetime.now()
 
+    if os.path.exists('done_accounts.csv'):
+        os.remove('done_accounts.csv')
+    if os.path.exists('bad_ids.csv'):
+        os.remove('bad_ids.csv')
+
     for i in ids:
-        full = []
-        for status in tweepy.Cursor(auth.user_timeline, id=i, tweet_mode="extended").items(num_tweets):
-            data = status.created_at, status.user.id, status.user.description, status.full_text, status.entities['hashtags'], status.entities['user_mentions'], status.user.location
-            print(data)
-            full.append(data)
-        df = pd.DataFrame(full)
-        df.columns = ['created_at','id', 'user_desc','tweet_text', 'hashtags', 'user_mentions','location']
-        df.to_csv(os.path.join(folder, 'tweets_' + str(i) + '_' + now.strftime("%Y-%m-%d") + '.csv'), index=False, encoding='utf-8')
-        with open('done_accounts.csv', 'a+') as fd:
-            file_writer = csv.writer(fd)
+        with open('done_accounts.csv', 'a+') as done_file:
+            file_writer = csv.writer(done_file)
             file_writer.writerow([str(i)])
 
+        full = []
 
+        try:
+            for status in tweepy.Cursor(auth.user_timeline, id=i, tweet_mode="extended").items(num_tweets):
+                data = status.created_at, status.user.id, status.user.description, status.full_text, status.entities['hashtags'], status.entities['user_mentions'], status.user.location
+                print(data)
+                full.append(data)
+
+                df = pd.DataFrame(full)
+                df.columns = ['created_at', 'id', 'user_desc', 'tweet_text', 'hashtags', 'user_mentions', 'location']
+                df.to_csv(os.path.join(folder, 'tweets_' + str(i) + '_' + now.strftime("%Y-%m-%d") + '.csv'),
+                          index=False, encoding='utf-8')
+
+        except tweepy.error.TweepError:
+
+            df = pd.DataFrame(full)
+            if df.empty == True:
+                print('DataFrame is empty, moving on')
+                pass
+
+            with open('bad_ids.csv', 'a+') as bad_file:
+                file_writer = csv.writer(bad_file)
+                file_writer.writerow([str(i)])
 
 def delete_done_account(audience_file, done_file):
 
@@ -174,7 +194,7 @@ if __name__ == '__main__':
     audience_file = args.audience_file
     # audience = get_audience(audience_file, args.num_accounts)
     # audience = get_audience_with_filter(audience_file, args.audience_type, args.num_accounts)
-    audience = get_audience(audience_file, 3) #<<<<<<<<<<------------- CHANGE the number for the batch amount
+    audience = get_audience(audience_file, 50) #<<<<<<<<<<------------- CHANGE the number for the batch amount
 
     tweets = get_all_tweets(auth, audience, 200)
 
@@ -194,3 +214,4 @@ if __name__ == '__main__':
     # get_mentions(all_frames)
 
 
+# python3 get_data.py --consumer_key HGspiXUy2qorI1i9Z3WbXHMNK --consumer_secret G6ksPlUph2mVdSul9ZuB727jaxJBlTdqaHdLcEWui437w8QWUU --access_token 930788834954051584-Iv3gPiSGcO4j0vTmow9X2pKN1LIyF6f --access_secret RE8XZFuURs56BEpd8IpW7A1YC3CBOKsNFAbPwnUVzW8YA --audience_file davide_savvy_fan_ids2.csv
