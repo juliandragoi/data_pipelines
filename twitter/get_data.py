@@ -214,4 +214,3 @@ if __name__ == '__main__':
     # get_mentions(all_frames)
 
 
-# python3 get_data.py --consumer_key HGspiXUy2qorI1i9Z3WbXHMNK --consumer_secret G6ksPlUph2mVdSul9ZuB727jaxJBlTdqaHdLcEWui437w8QWUU --access_token 930788834954051584-Iv3gPiSGcO4j0vTmow9X2pKN1LIyF6f --access_secret RE8XZFuURs56BEpd8IpW7A1YC3CBOKsNFAbPwnUVzW8YA --audience_file davide_savvy_fan_ids2.csv
