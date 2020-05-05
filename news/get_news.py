@@ -43,4 +43,4 @@ df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
 
 print(df)
 
-df.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace', index=False)
+df.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace')

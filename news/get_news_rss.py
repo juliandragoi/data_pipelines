@@ -178,4 +178,4 @@ all_frames = pd.concat(all_dfs)
 print(all_frames)
 
 
-all_frames.to_sql(schema='staging', name='rrs_news', con=get_engine(), if_exists='replace', index=False)
+all_frames.to_sql(schema='staging', name='rrs_news', con=get_engine(), if_exists='replace')
