@@ -9,33 +9,33 @@ import time
 import nltk
 from nltk.corpus import stopwords
 import time
-from get_data import *
+
 
 stops = [str(x) for x in stopwords.words('english')]
 
 
-week_in_sec = 86400*7
-min_date = time.mktime(time.strptime('Sat Jan 05 00:00:00 +0000 2019', "%a %b %d %H:%M:%S +0000 %Y"))
-jan_5 = time.mktime(time.strptime('Sun Jan 05 00:00:00 +0000 2020', "%a %b %d %H:%M:%S +0000 %Y"))
-feb_5 = time.mktime(time.strptime('Wed Feb 05 00:00:00 +0000 2020', "%a %b %d %H:%M:%S +0000 %Y"))
-mar_5 = time.mktime(time.strptime('Thu Mar 05 00:00:00 +0000 2020', "%a %b %d %H:%M:%S +0000 %Y"))
-
-
-
-def convert_to_sec(x):
-    return time.mktime(time.strptime(x, "%a %b %d %H:%M:%S +0000 %Y"))
-
-
-def convert_to_month(x):
-    if x < jan_5:
-        month = 0
-    elif x >= jan_5 and x < feb_5:
-        month = 1
-    elif x >= feb_5 and x < mar_5:
-        month = 2
-    elif x >= mar_5:
-        month = 3
-    return month
+# week_in_sec = 86400*7
+# min_date = time.mktime(time.strptime('Sat Jan 05 00:00:00 +0000 2019', "%a %b %d %H:%M:%S +0000 %Y"))
+# jan_5 = time.mktime(time.strptime('Sun Jan 05 00:00:00 +0000 2020', "%a %b %d %H:%M:%S +0000 %Y"))
+# feb_5 = time.mktime(time.strptime('Wed Feb 05 00:00:00 +0000 2020', "%a %b %d %H:%M:%S +0000 %Y"))
+# mar_5 = time.mktime(time.strptime('Thu Mar 05 00:00:00 +0000 2020', "%a %b %d %H:%M:%S +0000 %Y"))
+#
+#
+#
+# def convert_to_sec(x):
+#     return time.mktime(time.strptime(x, "%a %b %d %H:%M:%S +0000 %Y"))
+#
+#
+# def convert_to_month(x):
+#     if x < jan_5:
+#         month = 0
+#     elif x >= jan_5 and x < feb_5:
+#         month = 1
+#     elif x >= feb_5 and x < mar_5:
+#         month = 2
+#     elif x >= mar_5:
+#         month = 3
+#     return month
 
 
 def ngrams_func(s, n=2, i=0):
@@ -72,13 +72,13 @@ for file_ in file_list:
     df = df[pd.notnull(df['id']) & pd.notnull(df['created_at']) & pd.notnull(df['tweet_text'])]
 
 
-    print("    estimating date buckets")
-    df['date_new'] = df['created_at'].apply(lambda x: convert_to_sec(x))
-    df = df[df['date_new'] >= min_date].copy()
-
-    df['week'] = df['date_new'].apply(lambda x: np.int(np.ceil((x - jan_5) / week_in_sec)))
-    df['week'] = np.where(df['week'] < 0, 0, df['week'])
-    df['month'] = df['date_new'].apply(lambda x: convert_to_month(x))
+    # print("    estimating date buckets")
+    # df['date_new'] = df['created_at'].apply(lambda x: convert_to_sec(x))
+    # df = df[df['date_new'] >= min_date].copy()
+    #
+    # df['week'] = df['date_new'].apply(lambda x: np.int(np.ceil((x - jan_5) / week_in_sec)))
+    # df['week'] = np.where(df['week'] < 0, 0, df['week'])
+    # df['month'] = df['date_new'].apply(lambda x: convert_to_month(x))
 
     print("    finding grams")
     s_ = df[['index', 'text']].copy()
@@ -96,3 +96,5 @@ for file_ in file_list:
     s_2 = pd.merge(s_2, savvy, on='id')
 
     print("    counting grams")
+
+

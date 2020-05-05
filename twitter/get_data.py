@@ -149,6 +149,8 @@ def get_all_tweets(auth, ids, num_tweets):
                 file_writer = csv.writer(bad_file)
                 file_writer.writerow([str(i)])
 
+
+
 def delete_done_account(audience_file, done_file):
 
     lines = list()

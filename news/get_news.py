@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..")
 from newsapi import NewsApiClient
 # from AuthFile import get_news_key, get_news_engine
 
