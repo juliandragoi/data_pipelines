@@ -1,9 +1,8 @@
-import sys
 import feedparser
 import pandas as pd
 from datetime import datetime
 # from AuthFile import get_news_engine
-from ..helpers import get_engine
+from utils.helpers import get_engine
 
 
 reuters_feeds = ['http://feeds.reuters.com/reuters/UKTopNews'
