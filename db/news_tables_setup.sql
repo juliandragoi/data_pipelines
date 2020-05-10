@@ -8,8 +8,7 @@ CREATE TABLE IF NOT EXISTS core.news_raw (
 	, description varchar
 	, "content" varchar
 	, captured_at timestamp DEFAULT now()
+	, CONSTRAINT title_constraint UNIQUE (brand,title)
 )
-
-ALTER TABLE core.news_raw ADD CONSTRAINT title_constraint UNIQUE (title);
 
 ALTER TABLE core.news_raw OWNER TO pi_user;
