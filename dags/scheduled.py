@@ -10,7 +10,7 @@ from airflow.operators.postgres_operator import PostgresOperator
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': days_ago(2)
+    'start_date': days_ago(1)
 }
 
 db_connection = 'pi4_postgresdb'
