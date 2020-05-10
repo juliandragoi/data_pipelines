@@ -17,11 +17,12 @@ db_connection = 'pi4_postgresdb'
 main_dir = '/home/pi/data_pipelines'
 
 # **********************
-# daily server update
+# git pull
 # **********************
 
 git_pull = DAG(
     'git_pull',
+    schedule_interval=None,
     catchup=False,
     default_args=default_args
 )
