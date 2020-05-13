@@ -31,8 +31,8 @@ def get_audience(file_name, num_accounts):
     output_list = []
     df = pd.read_csv(file)
     # df = df.sort_values('importance', ascending=False)
-    df = df[['fan_id']].drop_duplicates()
-    res = df['fan_id'].head(num_accounts)
+    df = df[['twitter_id']].drop_duplicates()
+    res = df['twitter_id'].head(num_accounts)
     for i in res:
         print(i)
         output_list.append(i)
