@@ -2,5 +2,8 @@
 AuthFile.py
 twitter/account_tweets/
 twitter/audiences/
+twitter/grams_folder/
 test.py
 __pycache__
+twitter/bad_ids.csv
+twitter/done_accounts.csv

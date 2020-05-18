@@ -160,17 +160,17 @@ guardian_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
 all_dfs.append(guardian_df)
 
 
-# guardian
-washingtonpost_posts = []
-get_washingtonpost = feedparser.parse(washingtonpost_feed)
-for post in get_washingtonpost.entries:
-    row = post.title, post.summary
-    washingtonpost_posts.append(row)
-
-washingtonpost_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
-washingtonpost_df['brand'] = 'washingtonpost'
-washingtonpost_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
-all_dfs.append(washingtonpost_df)
+# washingtonpost
+# washingtonpost_posts = []
+# get_washingtonpost = feedparser.parse(washingtonpost_feed)
+# for post in get_washingtonpost.entries:
+#     row = post.title, post.summary
+#     washingtonpost_posts.append(row)
+#
+# washingtonpost_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
+# washingtonpost_df['brand'] = 'washingtonpost'
+# washingtonpost_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+# all_dfs.append(washingtonpost_df)
 
 
 all_frames = pd.concat(all_dfs)
