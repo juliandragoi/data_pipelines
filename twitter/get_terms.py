@@ -12,17 +12,16 @@ import argparse
 
 stops = [str(x) for x in stopwords.words('english')]
 
-
 def convert_to_sec(x):
     return time.mktime(time.strptime(x, "%Y-%m-%d %H:%M:%S"))
 
-week_in_sec = 86400*7
-min_date = time.mktime(time.strptime('2019-01-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
-jan_5 = time.mktime(time.strptime('2020-01-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
-feb_5 = time.mktime(time.strptime('2020-02-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
-mar_5 = time.mktime(time.strptime('2020-03-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
 
 def convert_to_month(x):
+
+    jan_5 = time.mktime(time.strptime('2020-01-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
+    feb_5 = time.mktime(time.strptime('2020-02-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
+    mar_5 = time.mktime(time.strptime('2020-03-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
+
     if x < jan_5:
         month = 0
     elif x >= jan_5 and x < feb_5:
@@ -97,6 +96,8 @@ if __name__ == '__main__':
     args = parse_args()
     FILES_DIR = 'account_tweets/'
     AUD_DIR = 'audiences/'
+    week_in_sec = 86400 * 7
+    min_date = time.mktime(time.strptime('2019-01-05 00:00:00', "%Y-%m-%d %H:%M:%S"))
 
     files = get_tweet_files(FILES_DIR)
     savvy, ids_per_label, labels = get_audience_file(AUD_DIR, args.audience_filename)
