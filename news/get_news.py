@@ -11,12 +11,17 @@ newsapi = NewsApiClient(api_key=get_news_api_key())
 
 def get_sources():
 
+    list_of_soureces = []
+
     sources = newsapi.get_sources()
     source_dump = sources.get('sources')
 
     for item in source_dump:
-        print(item['id'])
+        list_of_soureces.append(item['id'])
 
+    print(list_of_soureces)
+
+    return list_of_soureces
 
 def get_articles_content(list_of_sources):
 
@@ -31,10 +36,14 @@ def get_articles_content(list_of_sources):
 
 if __name__ == '__main__':
 
-    sources_list = ['bbc-news', 'bloomberg', 'cnbc', 'abc-news', 'cnn', 'crypto-coins-news'
+    sources_list = ['abc-news', 'bbc-news', 'bloomberg','buzzfeed', 'cnn', 'cbs-news' ,'crypto-coins-news'
         , 'financial-post', 'fox-news', 'google-news', 'hacker-news', 'independent']
 
-    sources_list_string = ', '.join(map(str, sources_list))
+    # for i in sources_list:
+    #     if any(i in s for s in get_sources()):
+    #         print(i)
+
+    # sources_list_string = ', '.join(map(str, sources_list))
 
     cont = get_articles_content(sources_list)
 
