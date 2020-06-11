@@ -95,5 +95,9 @@ news_raw_task = PostgresOperator(
     )
 
 
+# **********************
+# deps
+# **********************
+
 rss_news_task.set_downstream(news_raw_task)
 api_news_task.set_downstream(news_raw_task)

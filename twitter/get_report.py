@@ -95,8 +95,41 @@ def get_ratios(counts_column, summry):
 
     all_ratios_cl['ratio'] = np.where(pd.isnull(all_ratios_cl['ratio']), all_ratios_cl['num_label_x'],
                                       all_ratios_cl['ratio'])
+
+
+    # food_grams_counts = ratios_food.grams.value_counts().reset_index()
+    # food_grams_counts.columns = ['grams', 'num_month']
+
     print(all_ratios.columns)
     print(all_ratios)
+
+    return all_ratios
+
+
+
+def pivot_grams(df):
+
+    all_months_pv = pd.pivot_table(df, index='grams', columns='month',
+                                        values='ratio').reset_index().sort_values(3, ascending=False)
+    print(all_months_pv)
+
+    return all_months_pv
+
+
+def trend(x):
+    delta_1_3 = x[3] - x[1]
+    delta_1_2 = np.sign(x[2] - x[1])
+    delta_2_3 = np.sign(x[3] - x[2])
+    return delta_1_3 * delta_1_2 * delta_2_3
+
+
+def apply_trend(df):
+    df['trend'] = df.apply(lambda x: trend(x), axis=1)
+
+    print(df)
+
+    return df
+
 
 
 def gram_selection(df1):
@@ -125,7 +158,9 @@ if __name__ == '__main__':
 
     count_cl, summary = consolidate_grams(grams_files)
 
-    get_ratios(count_cl, summary)
+    main_df = get_ratios(count_cl, summary)
+
+    piv = pivot_grams(main_df)
 
 
 
