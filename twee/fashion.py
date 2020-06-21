@@ -1,6 +1,5 @@
-from utils.helpers import get_engine
+from utils.helpers import get_engine, twitter_consumer_key, twitter_consumer_secret, twitter_access_token, twitter_access_secret
 from datetime import datetime
-from AuthFile import *
 import pandas as pd
 import argparse
 import tweepy
@@ -71,13 +70,13 @@ if __name__ == '__main__':
 
     authentication = get_auth()
 
-    aud_file = '/Users/juliandragoi/data_pipelines/twee/audiences/fashion_brands.csv'
+    aud_file = '/home/pi/data_pipelines/twee/audiences/fashion_brands.csv'
 
     aud_list = get_audience_ids(aud_file)
 
     tweets = get_tweets(authentication, aud_list, 200)
 
-    tweets.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace')
+    tweets.to_sql(schema='staging', name='fashion_brand_tweets', con=get_engine(), if_exists='replace')
 
 
 

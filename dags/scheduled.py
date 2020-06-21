@@ -96,6 +96,22 @@ news_raw_task = PostgresOperator(
 
 
 # **********************
+# fashion tweets
+# **********************
+fashion_tweets_dag = DAG(
+    'fashion_tweets',
+    schedule_interval='0 3 * * *',
+    catchup=False,
+    template_searchpath=os.path.join(main_dir),
+    default_args=default_args
+)
+
+fashion_tweets_task = BashOperator(
+    task_id='fashion_tweets',
+    bash_command=str('python3 ' + os.path.join(main_dir, "twee","fashion.py ")),
+    dag=news_grab_dag)
+
+# **********************
 # deps
 # **********************
 

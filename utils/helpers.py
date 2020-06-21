@@ -32,3 +32,20 @@ def get_news_api_key():
 
     return Variable.get('secret_news_api_key')
 
+
+def twitter_consumer_key():
+    return Variable.get('secret_twitter_consumer_key')
+
+
+def twitter_consumer_secret():
+    return Variable.get('secret_twitter_consumer_secret')
+
+
+def twitter_access_token():
+    return Variable.get('secret_twitter_access_token')
+
+
+def twitter_access_secret():
+    return Variable.get('secret_twitter_access_secret')
+
+
