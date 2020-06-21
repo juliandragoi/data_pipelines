@@ -1,5 +1,5 @@
 from datetime import datetime
-# from AuthFile import *
+from AuthFile import *
 import pandas as pd
 import argparse
 import tweepy
@@ -9,18 +9,18 @@ import csv
 
 #  for local use with an auth/helpers file
 
-# def get_auth():
-#     auth = tweepy.OAuthHandler(twitter_consumer_key(), twitter_consumer_secret())
-#     auth.set_access_token(twitter_access_token(), twitter_access_secret())
-#     api = tweepy.API(auth, wait_on_rate_limit=True)
-#     return api
-
-
-def get_auth(twitter_consumer_key, twitter_consumer_secret, twitter_access_token, twitter_access_secret):
-    auth = tweepy.OAuthHandler(twitter_consumer_key, twitter_consumer_secret)
-    auth.set_access_token(twitter_access_token, twitter_access_secret)
+def get_auth():
+    auth = tweepy.OAuthHandler(twitter_consumer_key(), twitter_consumer_secret())
+    auth.set_access_token(twitter_access_token(), twitter_access_secret())
     api = tweepy.API(auth, wait_on_rate_limit=True)
     return api
+
+#
+# def get_auth(twitter_consumer_key, twitter_consumer_secret, twitter_access_token, twitter_access_secret):
+#     auth = tweepy.OAuthHandler(twitter_consumer_key, twitter_consumer_secret)
+#     auth.set_access_token(twitter_access_token, twitter_access_secret)
+#     api = tweepy.API(auth, wait_on_rate_limit=True)
+#     return api
 
 
 # get_audience method expects a pandas dataframe with only one column of ids
@@ -190,8 +190,8 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    auth = get_auth(args.consumer_key, args.consumer_secret, args.access_token, args.access_secret)
-    # auth = get_auth()
+    # auth = get_auth(args.consumer_key, args.consumer_secret, args.access_token, args.access_secret)
+    auth = get_auth()
 
     audience_file = args.audience_file
     # audience = get_audience(audience_file, args.num_accounts)
