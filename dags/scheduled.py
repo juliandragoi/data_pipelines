@@ -109,7 +109,7 @@ fashion_tweets_dag = DAG(
 fashion_tweets_task = BashOperator(
     task_id='fashion_tweets',
     bash_command=str('python3 ' + os.path.join(main_dir, "twee","fashion.py ")),
-    dag=news_grab_dag)
+    dag=fashion_tweets_dag)
 
 # **********************
 # deps
