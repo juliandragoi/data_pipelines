@@ -1,3 +1,4 @@
+from utils.helpers import get_engine
 from datetime import datetime
 from AuthFile import *
 import pandas as pd
@@ -76,7 +77,7 @@ if __name__ == '__main__':
 
     tweets = get_tweets(authentication, aud_list, 200)
 
-    tweets.to_csv(os.path.join('tweets_'+ now.strftime("%Y-%m-%d")+'.csv'),index=False, encoding='utf-8')
+    tweets.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace')
 
 
 
