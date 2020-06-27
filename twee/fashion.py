@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     aud_list = get_audience_ids(aud_file)
 
-    tweets = get_tweets(authentication, aud_list, 200)
+    tweets = get_tweets(authentication, aud_list, 100)
 
     tweets.to_sql(schema='staging', name='fashion_brand_tweets', con=get_engine(), if_exists='replace')
 

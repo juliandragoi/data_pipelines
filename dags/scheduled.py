@@ -111,9 +111,19 @@ fashion_tweets_task = BashOperator(
     bash_command=str('python3 ' + os.path.join(main_dir, "twee","fashion.py ")),
     dag=fashion_tweets_dag)
 
+fashion_insert = PostgresOperator(
+        task_id='fashion_insert',
+        sql=os.path.join('transform','news_transform.sql'),
+        postgres_conn_id=db_connection,
+        autocommit=True,
+        dag=fashion_tweets_dag
+    )
+
 # **********************
 # deps
 # **********************
 
 rss_news_task.set_downstream(news_raw_task)
 api_news_task.set_downstream(news_raw_task)
+
+fashion_tweets_task.set_downstream(fashion_insert)
