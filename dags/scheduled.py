@@ -113,7 +113,7 @@ fashion_tweets_task = BashOperator(
 
 fashion_insert = PostgresOperator(
         task_id='fashion_insert',
-        sql=os.path.join('transform','news_transform.sql'),
+        sql=os.path.join('transform','fashion_transform.sql'),
         postgres_conn_id=db_connection,
         autocommit=True,
         dag=fashion_tweets_dag
