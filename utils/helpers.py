@@ -49,3 +49,5 @@ def twitter_access_secret():
     return Variable.get('secret_twitter_access_secret')
 
 
+def reddit_creds():
+    return Variable.get('secret_reddit_creds')

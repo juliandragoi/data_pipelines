@@ -14,13 +14,15 @@ auth = OAuthHandler(twitter_consumer_key(), twitter_consumer_secret())
 auth.set_access_token(twitter_access_token(), twitter_access_secret())
 
 
-class MyListener(StreamListener):
+class StreamListenerFile(StreamListener):
 
     def on_data(self, data):
         try:
             with open('feed.json', 'a') as f:
+
                 f.write(data)
                 print('appending...' + str(datetime.datetime.now()))
+                print(data)
                 return True
         except BaseException as e:
             print("Error on_data: %s" % str(e))

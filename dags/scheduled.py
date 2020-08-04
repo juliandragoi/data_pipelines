@@ -70,7 +70,7 @@ t5 = SSHOperator(
 
 news_grab_dag = DAG(
     'news_grab',
-    schedule_interval='0 6,8,10,12,14,17,18,23 * * *',
+    schedule_interval='0 * * * *',
     catchup=False,
     template_searchpath=os.path.join(main_dir),
     default_args=default_args
@@ -96,28 +96,28 @@ news_raw_task = PostgresOperator(
 
 
 # **********************
-# fashion tweets
+# fashion tweets            ---- this currently generates too much data and crashes the node
 # **********************
-fashion_tweets_dag = DAG(
-    'fashion_tweets',
-    schedule_interval='0 3 * * 0',
-    catchup=False,
-    template_searchpath=os.path.join(main_dir),
-    default_args=default_args
-)
-
-fashion_tweets_task = BashOperator(
-    task_id='fashion_tweets',
-    bash_command=str('python3 ' + os.path.join(main_dir, "twee","fashion.py ")),
-    dag=fashion_tweets_dag)
-
-fashion_insert = PostgresOperator(
-        task_id='fashion_insert',
-        sql=os.path.join('transform','fashion_transform.sql'),
-        postgres_conn_id=db_connection,
-        autocommit=True,
-        dag=fashion_tweets_dag
-    )
+# fashion_tweets_dag = DAG(
+#     'fashion_tweets',
+#     schedule_interval='0 3 * * 0',
+#     catchup=False,
+#     template_searchpath=os.path.join(main_dir),
+#     default_args=default_args
+# )
+#
+# fashion_tweets_task = BashOperator(
+#     task_id='fashion_tweets',
+#     bash_command=str('python3 ' + os.path.join(main_dir, "twee","fashion.py ")),
+#     dag=fashion_tweets_dag)
+#
+# fashion_insert = PostgresOperator(
+#         task_id='fashion_insert',
+#         sql=os.path.join('transform','fashion_transform.sql'),
+#         postgres_conn_id=db_connection,
+#         autocommit=True,
+#         dag=fashion_tweets_dag
+#     )
 
 # **********************
 # deps
@@ -126,4 +126,4 @@ fashion_insert = PostgresOperator(
 rss_news_task.set_downstream(news_raw_task)
 api_news_task.set_downstream(news_raw_task)
 
-fashion_tweets_task.set_downstream(fashion_insert)
+# fashion_tweets_task.set_downstream(fashion_insert)

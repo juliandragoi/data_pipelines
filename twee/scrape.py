@@ -13,7 +13,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # url = "https://twitter.com/search?q=(%23barclays%20OR%20%23HSBC%20OR%20%23Lloyds%20OR%20%23Lloydsbank%20OR%20%23RBS%20OR%20%23RoyalBankOfScotland%20OR%20%23bank)%20(%40barclays%20OR%20%40HSBC%20OR%20%40HSBC_UK%20OR%20%40AskLloydsBank%20OR%20%40AskNationwide%20OR%20%40NatWestBusiness%20OR%20%40NatWest_Help%20OR%20%40BarclaysUK%20OR%20%40LBGplc%20OR%20%40AskHalifaxBank%20OR%20%40RBS%20OR%20%40RBS_Help%20OR%20%40TSB%20OR%20%40santanderukhelp%20OR%20%40AskBankOfScot)%20-filter%3Aretweets%20AND%20-filter%3Areplies%20AND%20-https%3A%2F%2F%27&src=typed_query&f=live"
 # url = "https://twitter.com/search?lang=en-gb&q=(%23albanian%20OR%20%23albania%20OR%20%23shqiperi)&src=typed_query"
-url = "https://twee.com/search?q=(%23goodwood%20OR%20%23goodwoodfestivalofspeed)&src=typed_query"
+# url = "https://twitter.com/search?q=(%23goodwood%20OR%20%23goodwoodfestivalofspeed)&src=typed_query"
+url = "https://twitter.com/search?q=(covid19 OR covid OR coronavirus)&src=typed_query"
+
 
 browser = webdriver.Chrome(ChromeDriverManager().install())
 
@@ -76,6 +78,7 @@ tweet_dict = {'tweet_id': []
     , 'favorites': []
               }
 for tweet_soup in tweet_soup_list:
+    print(tweet_soup)
     tweet_dict["tweet_id"].append(int(tweet_soup["data-tweet-id"]))
     tweet_dict["author_name"].append(tweet_soup["data-name"])
     tweet_dict["author_handle"].append(tweet_soup["data-screen-name"])
