@@ -65,6 +65,22 @@ t5 = SSHOperator(
 
 
 # **********************
+# maintenance
+# **********************
+
+maintenance_dag = DAG(
+    'maintenance',
+    schedule_interval='0 0 * * 0',
+    catchup=False,
+    default_args=default_args
+)
+
+cleanup_logs_task = BashOperator(
+    task_id='cleanup_logs',
+    bash_command=str(os.path.join('.',main_dir, "maintenance","cleanup_logs.sh ")),
+    dag=maintenance_dag)
+
+# **********************
 # news feeds
 # **********************
 
