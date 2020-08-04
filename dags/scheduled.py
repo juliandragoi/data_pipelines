@@ -71,6 +71,7 @@ t5 = SSHOperator(
 maintenance_dag = DAG(
     'maintenance',
     schedule_interval='0 0 * * 0',
+    template_searchpath=os.path.join(main_dir),
     catchup=False,
     default_args=default_args
 )
@@ -79,6 +80,26 @@ cleanup_logs_task = BashOperator(
     task_id='cleanup_logs',
     bash_command=str(os.path.join('.',main_dir, "maintenance","cleanup_logs.sh ")),
     dag=maintenance_dag)
+
+# **********************
+# metrics
+# **********************
+
+metrics_dag = DAG(
+    'metrics',
+    schedule_interval='0 0 * * *',
+    template_searchpath=os.path.join(main_dir),
+    catchup=False,
+    default_args=default_args
+)
+
+collect_metrics_task = PostgresOperator(
+        task_id='collect_metrics',
+        sql=os.path.join('maintenance','get_metrics.sql'),
+        postgres_conn_id=db_connection,
+        autocommit=True,
+        dag=metrics_dag
+    )
 
 # **********************
 # news feeds
