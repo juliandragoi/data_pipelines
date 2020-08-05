@@ -145,7 +145,7 @@ trends_dag = DAG(
 
 google_trends_task = BashOperator(
     task_id='google_trends',
-    bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_google_trendspy ")),
+    bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_google_trends.py ")),
     dag=trends_dag)
 
 twitter_trends_task = BashOperator(

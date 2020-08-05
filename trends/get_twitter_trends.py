@@ -1,5 +1,4 @@
 import tweepy
-from AuthFile import *
 import pandas as pd
 from datetime import datetime
 from utils.helpers import get_engine, get_twitter_auth
