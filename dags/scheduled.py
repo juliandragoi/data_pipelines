@@ -153,6 +153,14 @@ twitter_trends_task = BashOperator(
     bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_twitter_trends.py ")),
     dag=trends_dag)
 
+trends_insert_task = PostgresOperator(
+        task_id='trends_insert',
+        sql=os.path.join('transform','trends_transform.sql'),
+        postgres_conn_id=db_connection,
+        autocommit=True,
+        dag=trends_dag
+    )
+
 # **********************
 # fashion tweets            ---- this currently generates too much data and crashes the node
 # **********************
@@ -185,3 +193,7 @@ rss_news_task.set_downstream(news_raw_task)
 api_news_task.set_downstream(news_raw_task)
 
 # fashion_tweets_task.set_downstream(fashion_insert)
+
+
+twitter_trends_task.set_downstream(trends_insert_task)
+google_trends_task.set_downstream(trends_insert_task)
