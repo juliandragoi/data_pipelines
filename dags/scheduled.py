@@ -137,7 +137,7 @@ news_raw_task = PostgresOperator(
 
 trends_dag = DAG(
     'trends',
-    schedule_interval='0 * * * *',
+    schedule_interval='0 */2 * * *',
     catchup=False,
     template_searchpath=os.path.join(main_dir),
     default_args=default_args
