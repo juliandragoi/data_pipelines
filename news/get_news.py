@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
 
     df = pd.DataFrame(posts, columns=['title', 'brand', 'description', 'content'])
-    df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+    df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 
     print(df)
 

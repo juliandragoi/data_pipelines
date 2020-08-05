@@ -1,5 +1,8 @@
 import pandas as pd
 from pytrends.request import TrendReq
+from datetime import datetime
+from utils.helpers import get_engine
+
 pytrend = TrendReq()
 
 
@@ -19,16 +22,23 @@ def get_trend_searches_in_region(region):
 
 
 def get_todays_searches():
+    todays_trends = pytrend.today_searches()
 
-    df = pytrend.today_searches()
+    todays_keywords = todays_trends.to_list()
+    df = pd.DataFrame(todays_keywords, columns=['keywords'])
+
+    df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 
     return df
 
 
-
-
 if __name__ == '__main__':
 
+    trends = get_todays_searches()
 
-    pass
+    print(trends)
+
+    trends.to_sql(schema='staging', name='google_trends_today', con=get_engine(), if_exists='replace')
+
+
 

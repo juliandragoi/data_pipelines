@@ -131,6 +131,27 @@ news_raw_task = PostgresOperator(
         dag=news_grab_dag
     )
 
+# **********************
+# trends
+# **********************
+
+trends_dag = DAG(
+    'trends',
+    schedule_interval='0 * * * *',
+    catchup=False,
+    template_searchpath=os.path.join(main_dir),
+    default_args=default_args
+)
+
+google_trends_task = BashOperator(
+    task_id='google_trends',
+    bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_google_trendspy ")),
+    dag=trends_dag)
+
+twitter_trends_task = BashOperator(
+    task_id='twitter_trends',
+    bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_twitter_trends.py ")),
+    dag=trends_dag)
 
 # **********************
 # fashion tweets            ---- this currently generates too much data and crashes the node

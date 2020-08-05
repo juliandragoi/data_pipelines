@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from airflow.models import Variable
 import psycopg2
 import json
+import tweepy
 
 
 
@@ -51,3 +52,12 @@ def twitter_access_secret():
 
 def reddit_creds():
     return Variable.get('secret_reddit_creds')
+
+
+def get_twitter_auth():
+    auth = tweepy.OAuthHandler(twitter_consumer_key(), twitter_consumer_secret())
+    auth.set_access_token(twitter_access_token(), twitter_access_secret())
+    api = tweepy.API(auth)
+    # wait_on_rate_limit=True
+    return api
+

@@ -42,7 +42,7 @@ for url in reuters_feeds:
 
 reauters_posts_df = pd.DataFrame(reuters_posts, columns=['title', 'summary'])
 reauters_posts_df['brand'] = 'reuters'
-reauters_posts_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+reauters_posts_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 
 # bbc
 bbc_posts = []
@@ -55,7 +55,7 @@ for url in bbc_feeds:
 
 bbc_posts_df = pd.DataFrame(bbc_posts, columns=['title', 'summary'])
 bbc_posts_df['brand'] = 'bbc'
-bbc_posts_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+bbc_posts_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(bbc_posts_df)
 
 # google
@@ -67,7 +67,7 @@ for post in get_google.entries:
 
 google_df = pd.DataFrame(google_posts, columns=['title', 'summary'])
 google_df['brand'] = 'google'
-google_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+google_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(google_df)
 
 
@@ -80,7 +80,7 @@ for post in get_reddit.entries:
 
 reddit_df = pd.DataFrame(reddit_posts, columns=['title', 'summary'])
 reddit_df['brand'] = 'reddit'
-reddit_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+reddit_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(reddit_df)
 
 # nytimes
@@ -92,7 +92,7 @@ for post in get_nytimes.entries:
 
 nytimes_df = pd.DataFrame(nytimes_posts, columns=['title', 'summary'])
 nytimes_df['brand'] = 'nytimes'
-nytimes_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+nytimes_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(nytimes_df)
 
 # buzzfeed
@@ -104,7 +104,7 @@ for post in get_buzzfeed.entries:
 
 buzzfeed_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
 buzzfeed_df['brand'] = 'buzzfeed'
-buzzfeed_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+buzzfeed_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(buzzfeed_df)
 
 
@@ -117,7 +117,7 @@ for post in get_aljazeera.entries:
 
 aljazeera_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
 aljazeera_df['brand'] = 'aljazeera'
-aljazeera_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+aljazeera_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(aljazeera_df)
 
 
@@ -130,7 +130,7 @@ for post in get_cipher.entries:
 
 cipher_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
 cipher_df['brand'] = 'cipher'
-cipher_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+cipher_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(cipher_df)
 
 
@@ -143,7 +143,7 @@ for post in get_cnn.entries:
 
 cnn_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
 cnn_df['brand'] = 'cnn'
-cnn_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+cnn_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(cnn_df)
 
 
@@ -156,7 +156,7 @@ for post in get_guardian.entries:
 
 guardian_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
 guardian_df['brand'] = 'guardian'
-guardian_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+guardian_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 all_dfs.append(guardian_df)
 
 
@@ -169,7 +169,7 @@ all_dfs.append(guardian_df)
 #
 # washingtonpost_df = pd.DataFrame(buzzfeed_posts, columns=['title', 'summary'])
 # washingtonpost_df['brand'] = 'washingtonpost'
-# washingtonpost_df['captured_at'] = str(datetime.now().strftime("%Y%m%d_%H:00"))
+# washingtonpost_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 # all_dfs.append(washingtonpost_df)
 
 
