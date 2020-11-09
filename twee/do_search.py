@@ -11,7 +11,7 @@ import boto
 import boto.s3
 import sys
 from boto.s3.key import Key
-
+import time, threading
 
 
 
@@ -24,24 +24,24 @@ def get_auth():
 
 
 
-def get_tweets(creds):
-    # date_since = "2018-11-16"
-    # since=date_since
+def get_tweets(creds, query, d_since, num_tweets):
 
-    query = 'corona OR covid19 OR covid OR coronavirus' # this needs to be made dynamic
-
-
-    max_tweets = 2000
     searched_tweets = []
 
-    for status in tweepy.Cursor(creds.search, q=query).items(max_tweets):
-        searched_tweets.append(status)
-        print(status)
+    for status in tweepy.Cursor(creds.search, q=query, since=d_since,lang="en").items(num_tweets):
+        searched_tweets.append(status._json)
+        print(status._json)
 
 
     df = pd.DataFrame(searched_tweets)
 
-    df.to_csv('test_covid_tweets.csv')
+    print(df)
+
+    # df.to_csv('singapore_elections_tweets' + str(datetime.now().strftime("%Y-%m-%d_%H:00")) + '.csv')
+
+    max_created_at = max(df['created_at'])
+
+    print(max_created_at)
 
     return df
 
@@ -49,14 +49,18 @@ def get_tweets(creds):
 
 if __name__ == '__main__':
 
+
+    date_since = "2020-01-01"
+
+    since = 1277834415947657216
+
     a = get_auth()
 
-    twe = get_tweets(a)
+    keywords = ['singapore election', 'SingaporeElection', 'singaporevotes', 'SGE', 'sgelections', 'singaporevotes'
+        , 'SDP', 'SingaporeDemocraticParty', 'singaporeGE2020']
 
-    print(twe)
+    query = ' OR '.join(keywords)
 
+    twe = get_tweets(a, query, since, 100)
 
-
-
-
-
+    print(twe.columns)

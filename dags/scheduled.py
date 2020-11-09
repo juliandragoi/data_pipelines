@@ -87,7 +87,7 @@ cleanup_logs_task = BashOperator(
 
 metrics_dag = DAG(
     'metrics',
-    schedule_interval='0 0 * * *',
+    # schedule_interval='0 0 * * *',
     template_searchpath=os.path.join(main_dir),
     catchup=False,
     default_args=default_args
@@ -137,7 +137,7 @@ news_raw_task = PostgresOperator(
 
 trends_dag = DAG(
     'trends',
-    schedule_interval='0 * * * *',
+    # schedule_interval='0 * * * *',
     catchup=False,
     template_searchpath=os.path.join(main_dir),
     default_args=default_args
@@ -193,7 +193,7 @@ rss_news_task.set_downstream(news_raw_task)
 api_news_task.set_downstream(news_raw_task)
 
 # fashion_tweets_task.set_downstream(fashion_insert)
-
-
-twitter_trends_task.set_downstream(trends_insert_task)
-google_trends_task.set_downstream(trends_insert_task)
+#
+#
+# twitter_trends_task.set_downstream(trends_insert_task)
+# google_trends_task.set_downstream(trends_insert_task)

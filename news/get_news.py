@@ -8,20 +8,21 @@ from utils.helpers import get_news_api_key, get_engine
 # Init
 newsapi = NewsApiClient(api_key=get_news_api_key())
 
-
-def get_sources():
-
-    list_of_soureces = []
+def get_sources(lang, cat):
+    list_of_sources = []
+    count = 0
 
     sources = newsapi.get_sources()
     source_dump = sources.get('sources')
 
     for item in source_dump:
-        list_of_soureces.append(item['id'])
+        count = count + 1
+        if (item['language'] == lang) & (item['category'] == cat):
+            list_of_sources.append(item)
 
-    print(list_of_soureces)
+            print(count,':' ,item)
 
-    return list_of_soureces
+    return list_of_sources
 
 def get_articles_content(list_of_sources):
 
@@ -55,7 +56,6 @@ if __name__ == '__main__':
             posts.append(post)
 
     print(posts)
-
 
     df = pd.DataFrame(posts, columns=['title', 'brand', 'description', 'content'])
     df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))

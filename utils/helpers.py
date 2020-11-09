@@ -61,3 +61,6 @@ def get_twitter_auth():
     # wait_on_rate_limit=True
     return api
 
+def get_s3_keys():
+
+    pass
