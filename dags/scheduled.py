@@ -85,21 +85,21 @@ cleanup_logs_task = BashOperator(
 # metrics
 # **********************
 
-metrics_dag = DAG(
-    'metrics',
-    schedule_interval=None,
-    template_searchpath=os.path.join(main_dir),
-    catchup=False,
-    default_args=default_args
-)
-
-collect_metrics_task = PostgresOperator(
-        task_id='collect_metrics',
-        sql=os.path.join('maintenance','get_metrics.sql'),
-        postgres_conn_id=db_connection,
-        autocommit=True,
-        dag=metrics_dag
-    )
+# metrics_dag = DAG(
+#     'metrics',
+#     schedule_interval=None,
+#     template_searchpath=os.path.join(main_dir),
+#     catchup=False,
+#     default_args=default_args
+# )
+#
+# collect_metrics_task = PostgresOperator(
+#         task_id='collect_metrics',
+#         sql=os.path.join('maintenance','get_metrics.sql'),
+#         postgres_conn_id=db_connection,
+#         autocommit=True,
+#         dag=metrics_dag
+#     )
 
 # **********************
 # news feeds
@@ -135,31 +135,31 @@ news_raw_task = PostgresOperator(
 # trends
 # **********************
 
-trends_dag = DAG(
-    'trends',
-    schedule_interval=None,
-    catchup=False,
-    template_searchpath=os.path.join(main_dir),
-    default_args=default_args
-)
-
-google_trends_task = BashOperator(
-    task_id='google_trends',
-    bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_google_trends.py ")),
-    dag=trends_dag)
-
-twitter_trends_task = BashOperator(
-    task_id='twitter_trends',
-    bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_twitter_trends.py ")),
-    dag=trends_dag)
-
-trends_insert_task = PostgresOperator(
-        task_id='trends_insert',
-        sql=os.path.join('transform','trends_transform.sql'),
-        postgres_conn_id=db_connection,
-        autocommit=True,
-        dag=trends_dag
-    )
+# trends_dag = DAG(
+#     'trends',
+#     schedule_interval=None,
+#     catchup=False,
+#     template_searchpath=os.path.join(main_dir),
+#     default_args=default_args
+# )
+#
+# google_trends_task = BashOperator(
+#     task_id='google_trends',
+#     bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_google_trends.py ")),
+#     dag=trends_dag)
+#
+# twitter_trends_task = BashOperator(
+#     task_id='twitter_trends',
+#     bash_command=str('python3 ' + os.path.join(main_dir, "trends","get_twitter_trends.py ")),
+#     dag=trends_dag)
+#
+# trends_insert_task = PostgresOperator(
+#         task_id='trends_insert',
+#         sql=os.path.join('transform','trends_transform.sql'),
+#         postgres_conn_id=db_connection,
+#         autocommit=True,
+#         dag=trends_dag
+#     )
 
 # **********************
 # fashion tweets            ---- this currently generates too much data and crashes the node
