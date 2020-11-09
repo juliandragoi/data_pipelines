@@ -87,7 +87,7 @@ cleanup_logs_task = BashOperator(
 
 metrics_dag = DAG(
     'metrics',
-    # schedule_interval='0 0 * * *',
+    schedule_interval=None,
     template_searchpath=os.path.join(main_dir),
     catchup=False,
     default_args=default_args
@@ -137,7 +137,7 @@ news_raw_task = PostgresOperator(
 
 trends_dag = DAG(
     'trends',
-    # schedule_interval='0 * * * *',
+    schedule_interval=None,
     catchup=False,
     template_searchpath=os.path.join(main_dir),
     default_args=default_args
