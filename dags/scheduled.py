@@ -118,10 +118,10 @@ rss_news_task = BashOperator(
     bash_command=str('python3 ' + os.path.join(main_dir, "news","get_news_rss.py ")),
     dag=news_grab_dag)
 
-api_news_task = BashOperator(
-    task_id='api_news',
-    bash_command=str('python3 ' + os.path.join(main_dir, "news","get_news.py ")),
-    dag=news_grab_dag)
+# api_news_task = BashOperator(
+#     task_id='api_news',
+#     bash_command=str('python3 ' + os.path.join(main_dir, "news","get_news.py ")),
+#     dag=news_grab_dag)
 
 news_raw_task = PostgresOperator(
         task_id='news_raw_insert',
@@ -190,7 +190,7 @@ news_raw_task = PostgresOperator(
 # **********************
 
 rss_news_task.set_downstream(news_raw_task)
-api_news_task.set_downstream(news_raw_task)
+# api_news_task.set_downstream(news_raw_task)
 
 # fashion_tweets_task.set_downstream(fashion_insert)
 #
