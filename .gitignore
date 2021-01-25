@@ -7,3 +7,6 @@ test.py
 __pycache__
 twitter/bad_ids.csv
 twitter/done_accounts.csv
+companies_house/companies_uk.csv
+go.sh
+test*.py
