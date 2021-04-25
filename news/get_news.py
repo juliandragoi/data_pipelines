@@ -62,4 +62,4 @@ if __name__ == '__main__':
 
     print(df)
 
-    df.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace')
+    # df.to_sql(schema='staging', name='api_news', con=get_engine(), if_exists='replace')

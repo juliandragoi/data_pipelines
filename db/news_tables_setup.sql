@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS core.news_raw (
 	, title	varchar
 	, summary varchar
 	, description varchar
+	, link varchar
 	, "content" varchar
 	, captured_at timestamp DEFAULT now()
 	, CONSTRAINT title_constraint UNIQUE (brand,title)
