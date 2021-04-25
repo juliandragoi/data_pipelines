@@ -10,3 +10,4 @@ twitter/done_accounts.csv
 companies_house/companies_uk.csv
 go.sh
 test*.py
+utils/config.yaml
