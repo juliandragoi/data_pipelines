@@ -4,6 +4,7 @@ from datetime import datetime
 import re
 from sqlalchemy import create_engine
 import yaml
+import os
 
 feeds = ['http://feeds.bbci.co.uk/news/rss.xml'
             ,'http://feeds.bbci.co.uk/news/world/rss.xml'
@@ -64,7 +65,7 @@ def get_posts():
 
 if __name__ == '__main__':
 
-    with open("utils/config.yaml", 'r') as stream:
+    with open(os.path.realpath("../utils/config.yaml"), 'r') as stream:
         creds = yaml.safe_load(stream)
         news_creds = creds['rss_news_ingest']
 
