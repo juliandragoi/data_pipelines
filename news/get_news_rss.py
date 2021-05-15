@@ -50,15 +50,21 @@ def get_posts():
     posts = []
     for url in feeds:
         print(url)
+        feed = feedparser.parse(url)
+        source = get_source(url)
         try:
-            feed = feedparser.parse(url)
-            source = get_source(url)
             for post in feed.entries:
                 print(post)
                 row = post.title, post.summary, post.link, source, post.author, post.published
                 posts.append(row)
-        except:
+        except AttributeError:
+            for post in feed.entries:
+                print(post)
+                row = post.title, ' ', post.link, source, ' ', ' '
+                posts.append(row)
+        else:
             pass
+
     posts_df = pd.DataFrame(posts, columns=['title', 'summary', 'link', 'source', 'author', 'published'])
     posts_df['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
 
@@ -75,15 +81,9 @@ if __name__ == '__main__':
         creds = yaml.safe_load(stream)
         news_creds = creds['rss_news_ingest']
 
-    for i in feeds:
-        data = get_source(i)
-        print(data)
-
     data = get_posts()
 
-    print(data.columns)
-
-    # data.to_csv('test.csv', index=False)
-
-    engine = create_engine(news_creds['engine'], convert_unicode=True)
-    data.to_sql(schema=news_creds['schema'], name=news_creds['table_name'], con=engine, if_exists='replace', index=False)
+    data.to_csv('test.csv', index=False)
+    #
+    # engine = create_engine(news_creds['engine'], convert_unicode=True)
+    # data.to_sql(schema=news_creds['schema'], name=news_creds['table_name'], con=engine, if_exists='replace', index=False)

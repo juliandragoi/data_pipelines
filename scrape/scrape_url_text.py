@@ -80,6 +80,6 @@ class LinkCheckerSpider(scrapy.Spider):
         df = pd.DataFrame(article_text_list, columns=['link','text'])
         df = df[df['text'].notna()]
         # df.to_csv('test.csv', index=False)
-        df.to_sql(schema=get_creds()['scraped']['schema'], name=get_creds()['scraped']['table_name'], con=get_creds()['pi4']['engine'], if_exists='replace', index=False)
+        # df.to_sql(schema=get_creds()['scraped']['schema'], name=get_creds()['scraped']['table_name'], con=get_creds()['pi4']['engine'], if_exists='replace', index=False)
         print('printing DF -------------------------')
         print(df)
