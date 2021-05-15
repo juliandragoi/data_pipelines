@@ -4,7 +4,9 @@ from datetime import datetime
 import re
 from sqlalchemy import create_engine
 import yaml
+from pathlib import Path
 import os
+
 
 feeds = ['http://feeds.bbci.co.uk/news/rss.xml'
             ,'http://feeds.bbci.co.uk/news/world/rss.xml'
@@ -14,7 +16,7 @@ feeds = ['http://feeds.bbci.co.uk/news/rss.xml'
             ,'https://www.reddit.com/r/worldnews/.rss'
             ,'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'
             ,'https://www.buzzfeed.com/world.xml'
-            ,'https://www.aljazeera.com/xml/rs s/all.xml'
+            ,'https://www.aljazeera.com/xml/rss/all.xml'
             ,'https://www.thecipherbrief.com/feed'
             ,'http://rss.cnn.com/rss/edition_world.rss'
             ,'https://www.theguardian.com/world/rss'
@@ -65,7 +67,11 @@ def get_posts():
 
 if __name__ == '__main__':
 
-    with open(os.path.realpath("../utils/config.yaml"), 'r') as stream:
+    script_location = Path(__file__).absolute().parent
+    head, tail = os.path.split(script_location)
+    file_location = os.path.join(head, 'utils', 'config.yaml')
+
+    with open(file_location, 'r') as stream:
         creds = yaml.safe_load(stream)
         news_creds = creds['rss_news_ingest']
 
@@ -75,6 +81,9 @@ if __name__ == '__main__':
 
     data = get_posts()
 
-    engine = create_engine(news_creds['engine'], convert_unicode=True)
-    data.to_sql(schema=news_creds['schema'], name=news_creds['table_name'], con=engine, if_exists='replace')
+    print(data.columns)
 
+    # data.to_csv('test.csv', index=False)
+
+    engine = create_engine(news_creds['engine'], convert_unicode=True)
+    data.to_sql(schema=news_creds['schema'], name=news_creds['table_name'], con=engine, if_exists='replace', index=False)

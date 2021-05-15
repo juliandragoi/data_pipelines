@@ -1,15 +1,16 @@
 
-DROP TABLE IF EXISTS core.news_raw;
+DROP TABLE IF EXISTS core.news;
 
-CREATE TABLE IF NOT EXISTS core.news_raw (
-	brand varchar
+CREATE TABLE IF NOT EXISTS core.news (
+    post_id serial
+	, source varchar
 	, title	varchar
 	, summary varchar
-	, description varchar
 	, link varchar
-	, "content" varchar
-	, captured_at timestamp DEFAULT now()
-	, CONSTRAINT title_constraint UNIQUE (brand,title)
+	, author varchar
+	, published varchar
+	, captured_at varchar
+	, CONSTRAINT unique_news_constraint UNIQUE (source,title)
 )
 
-ALTER TABLE core.news_raw OWNER TO pi_user;
+ALTER TABLE core.news OWNER TO pi_user;
