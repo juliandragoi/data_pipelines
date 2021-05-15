@@ -83,7 +83,7 @@ if __name__ == '__main__':
 
     data = get_posts()
 
-    data.to_csv('test.csv', index=False)
-    #
-    # engine = create_engine(news_creds['engine'], convert_unicode=True)
-    # data.to_sql(schema=news_creds['schema'], name=news_creds['table_name'], con=engine, if_exists='replace', index=False)
+    # data.to_csv('test.csv', index=False)
+
+    engine = create_engine(news_creds['engine'], convert_unicode=True)
+    data.to_sql(schema=news_creds['schema'], name=news_creds['table_name'], con=engine, if_exists='replace', index=False)
