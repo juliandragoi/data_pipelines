@@ -128,7 +128,7 @@ news_raw_task = PostgresOperator(
 
 rss_news_scrape_task = BashOperator(
     task_id='rrs_news_scrape',
-    bash_command=str(os.path.join(main_dir, "scrape") + " scrapy runspider scrape_url_text.py "),
+    bash_command= 'cd ' + str(os.path.join(main_dir, "scrape") + '&&' + 'scrapy runspider scrape_url_text.py '),
     dag=news_grab_dag)
 
 # **********************
