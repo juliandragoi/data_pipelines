@@ -131,6 +131,21 @@ rss_news_scrape_task = BashOperator(
     bash_command= 'cd ' + str(os.path.join(main_dir, "scrape") + '&&' + 'scrapy runspider scrape_url_text.py '),
     dag=news_grab_dag)
 
+
+rss_news_scraped_ingest_task = BashOperator(
+    task_id='rss_news_scraped_ingest',
+    bash_command=str('python3 ' + os.path.join(main_dir, "scrape","ingest_scraped.py ")),
+    dag=news_grab_dag)
+
+
+news_scraped_insert_task = PostgresOperator(
+        task_id='news_scraped_insert',
+        sql=os.path.join('transform','news_scraped_transform.sql'),
+        postgres_conn_id=db_connection,
+        autocommit=True,
+        dag=news_grab_dag
+    )
+
 # **********************
 # trends
 # **********************
@@ -167,6 +182,9 @@ rss_news_scrape_task = BashOperator(
 
 rss_news_task.set_downstream(news_raw_task)
 news_raw_task.set_downstream(rss_news_scrape_task)
+rss_news_scrape_task.set_downstream(rss_news_scraped_ingest_task)
+rss_news_scraped_ingest_task.set_downstream(news_scraped_insert_task)
+
 # api_news_task.set_downstream(news_raw_task)
 
 # fashion_tweets_task.set_downstream(fashion_insert)
