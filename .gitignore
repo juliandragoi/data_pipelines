@@ -11,3 +11,5 @@ companies_house/companies_uk.csv
 go.sh
 test*.py
 utils/config.yaml
+*/.DS_Store
+.DS_Store
