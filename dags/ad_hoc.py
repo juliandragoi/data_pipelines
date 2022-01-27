@@ -1,11 +1,7 @@
 import os
 from airflow import DAG
-from airflow.models import Variable
 from airflow.utils.dates import days_ago
-from airflow.operators.bash_operator import BashOperator
-from airflow.contrib.operators.ssh_operator import SSHOperator
-from airflow.operators.postgres_operator import PostgresOperator
-
+from airflow.operators.bash import BashOperator
 
 default_args = {
     'owner': 'airflow',
