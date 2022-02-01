@@ -6,16 +6,15 @@ from airflow.operators.docker_operator import DockerOperator
 default_args = {
 'owner'                 : 'airflow',
 'depend_on_past'        : False,
-'start_date'            : datetime(2018, 1, 3)
+'start_date'            : datetime(2022, 1, 31)
 }
 
-with DAG('docker_dag', default_args=default_args, schedule_interval="30 * * * *", catchup=False) as dag:
+with DAG('news_docker_dag', default_args=default_args, schedule_interval="30 * * * *", catchup=False) as dag:
 
     task_1 = DockerOperator(
         dag=dag,
-        task_id='news_docker',
-        image='dummyorg/dummy_api_tools:v1',
+        task_id='news_container',
+        image='news_rss',
         auto_remove=True,
-        docker_url='unix://var/run/docker.sock',
-        command='python extract_from_api_or_something.py'
+        command="python3 /home/news/get_news_rss.py"
     )
