@@ -1,15 +1,15 @@
 from airflow import DAG
 from datetime import datetime, timedelta
-from airflow.operators.docker_operator import DockerOperator
+
 
 
 default_args = {
-'owner'                 : 'airflow',
+'owner'                 : 'JDrago',
 'depend_on_past'        : False,
 'start_date'            : datetime(2022, 1, 31)
 }
 
-with DAG('news_docker_dag', default_args=default_args, schedule_interval="30 * * * *", catchup=False) as dag:
+with DAG('news_docker_dag', default_args=default_args, schedule_interval="0 * * * *", catchup=False) as dag:
 
     task_1 = DockerOperator(
         dag=dag,
