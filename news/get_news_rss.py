@@ -49,17 +49,17 @@ def get_source(url):
 def get_posts():
     posts = []
     for url in feeds:
-        print(url)
+        # print(url)
         feed = feedparser.parse(url)
         source = get_source(url)
         try:
             for post in feed.entries:
-                print(post)
+                # print(post)
                 row = post.title, post.summary, post.link, source, post.author, post.published
                 posts.append(row)
         except AttributeError:
             for post in feed.entries:
-                print(post)
+                # print(post)
                 row = post.title, ' ', post.link, source, ' ', ' '
                 posts.append(row)
         else:
