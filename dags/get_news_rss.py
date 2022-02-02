@@ -21,7 +21,7 @@ with DAG('news_docker_dag', default_args=default_args, schedule_interval="0 * * 
         bash_command=str('python3 ' + os.path.join(main_dir, "news", "get_news_rss.py ")),
         dag=news_grab_dag)
 
-    news_task = PostgresOperator(
+    news_insert_task = PostgresOperator(
         task_id='news_insert',
         sql=os.path.join('transform', 'news_insert.sql'),
         postgres_conn_id=db_connection,
@@ -29,26 +29,5 @@ with DAG('news_docker_dag', default_args=default_args, schedule_interval="0 * * 
         dag=news_grab_dag
     )
 
-rss_news_task >> news_insert
+rss_news_task >> news_insert_task
 
-
-news_grab_dag = DAG(
-    'news_grab',
-    schedule_interval='0 * * * *',
-    catchup=False,
-    template_searchpath=os.path.join(main_dir),
-    default_args=default_args
-)
-
-rss_news_task = BashOperator(
-    task_id='rrs_news',
-    bash_command=str('python3 ' + os.path.join(main_dir, "news","get_news_rss.py ")),
-    dag=news_grab_dag)
-
-news_raw_task = PostgresOperator(
-        task_id='news_raw_insert',
-        sql=os.path.join('transform','news_insert.sql'),
-        postgres_conn_id=db_connection,
-        autocommit=True,
-        dag=news_grab_dag
-    )
