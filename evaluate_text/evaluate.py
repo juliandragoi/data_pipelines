@@ -54,7 +54,7 @@ def make_request(data_string):
 
 if __name__ == '__main__':
 
-  file = '/Users/juliandragoi/newsnlp-data-science-pipelines/scrape/test.csv'
+  file = '/Users/juliandragoi/Desktop/data_pipelines/scrape/scraped_news.csv'
 
   df = pd.read_csv(file)
   count = 0

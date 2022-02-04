@@ -6,33 +6,38 @@ from sqlalchemy import create_engine
 import yaml
 from pathlib import Path
 import os
+import psycopg2
 
 
-feeds = ['http://feeds.bbci.co.uk/news/rss.xml'
-            ,'http://feeds.bbci.co.uk/news/world/rss.xml'
-            ,'http://feeds.bbci.co.uk/news/science_and_environment/rss.xml'
-            ,'http://feeds.bbci.co.uk/news/technology/rss.xml'
-            ,'https://news.google.com/rss?x=1571747254.2933&hl=en-US&gl=US&ceid=US:en'
-            ,'https://www.reddit.com/r/worldnews/.rss'
-            ,'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'
-            ,'https://www.buzzfeed.com/world.xml'
-            ,'https://www.aljazeera.com/xml/rss/all.xml'
-            ,'https://www.thecipherbrief.com/feed'
-            ,'http://rss.cnn.com/rss/edition_world.rss'
-            ,'https://www.theguardian.com/world/rss'
-            ,'https://www.huffpost.com/section/front-page/feed?x=1'
-            ,'http://rssfeeds.usatoday.com/UsatodaycomNation-TopStories'
-            ,'https://www.politico.com/rss/politicopicks.xml'
-            ,'https://www.lifehacker.com/rss'
-            ,'https://www.yahoo.com/news/rss'
-            ,'https://www.latimes.com/local/rss2.0.xml'
-            ,'https://feeds.npr.org/1008/rss.xml'
-            ,'https://www.medium.com/feed/topic/politics'
-            ,'https://www.wired.com/feed/category/ideas/latest/rss'
-            ,'https://www.medium.com/feed/topic/society'
-            ,'https://www.medium.com/feed/topic/culture'
-            ,'https://www.medium.com/feed/topic/equality'
-            ,'https://www.medium.com/feed/topic/health']
+def get_feed_list(con_user, con_pass, con_host, con_port, con_database):
+
+    try:
+        connection = psycopg2.connect(user=con_user,
+                                      password=con_pass,
+                                      host=con_host,
+                                      port=con_port,
+                                      database=con_database)
+        cursor = connection.cursor()
+        postgreSQL_select_Query = "select distinct url from staging.feed_list where status = 'alive'"
+
+        cursor.execute(postgreSQL_select_Query)
+        feed_list = cursor.fetchall()
+        to_list = []
+
+        for row in feed_list:
+            to_list.append(row[0])
+
+        return to_list
+
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error while fetching data from PostgreSQL", error)
+
+    finally:
+        # closing database connection.
+        if connection:
+            cursor.close()
+            connection.close()
 
 
 def cleanhtml(raw_html):
@@ -46,7 +51,7 @@ def get_source(url):
     return source[0]
 
 
-def get_posts():
+def get_posts(feeds):
     posts = []
     for url in feeds:
         # print(url)
@@ -72,16 +77,19 @@ def get_posts():
 
 
 if __name__ == '__main__':
-
     script_location = Path(__file__).absolute().parent
     head, tail = os.path.split(script_location)
     file_location = os.path.join(head, 'utils', 'config.yaml')
 
     with open(file_location, 'r') as stream:
         creds = yaml.safe_load(stream)
+        news_db_creds = creds['pi4_db']
         news_creds = creds['rss_news_ingest']
 
-    data = get_posts()
+    feeds_list = get_feed_list(news_db_creds['user'], news_db_creds['password'], news_db_creds['host']
+                               , news_db_creds['port'], news_db_creds['database'])
+
+    data = get_posts(feeds_list)
 
     # data.to_csv('test.csv', index=False)
 
