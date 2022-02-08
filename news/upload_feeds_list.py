@@ -8,7 +8,7 @@ import os
 feed_list_file = '/Users/juliandragoi/Desktop/feed_list.csv'
 
 feed_list = pd.read_csv(feed_list_file)
-feed_list['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:00"))
+feed_list['captured_at'] = str(datetime.now().strftime("%Y-%m-%d_%H:%M"))
 
 
 script_location = Path(__file__).absolute().parent
