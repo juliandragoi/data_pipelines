@@ -23,4 +23,4 @@ with open(file_location, 'r') as stream:
 data = feed_list
 
 engine = create_engine(news_creds['engine'], convert_unicode=True)
-data.to_sql(schema=news_creds['schema'], name='feed_list', con=engine, if_exists='append', index=False)
+data.to_sql(schema='core', name='feed_list', con=engine, if_exists='replace', index=False)

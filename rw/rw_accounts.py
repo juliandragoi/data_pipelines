@@ -24,4 +24,4 @@ data = rw_accounts
 
 
 engine = create_engine(news_creds['engine'], convert_unicode=True)
-data.to_sql(schema=news_creds['schema'], name='rw_accounts', con=engine, if_exists='append', index=False)
+data.to_sql(schema='core', name='rw_accounts', con=engine, if_exists='replace', index=False)

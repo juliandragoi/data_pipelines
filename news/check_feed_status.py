@@ -17,7 +17,7 @@ def get_feed_list(con_user, con_pass, con_host, con_port, con_database):
                                       port=con_port,
                                       database=con_database)
         cursor = connection.cursor()
-        postgreSQL_select_Query = "select * from staging.feed_list where status = 'alive'"
+        postgreSQL_select_Query = "select * from core.feed_list"
 
         cursor.execute(postgreSQL_select_Query)
         feed_list = cursor.fetchall()
