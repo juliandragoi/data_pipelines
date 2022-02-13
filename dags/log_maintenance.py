@@ -13,7 +13,7 @@ default_args = {
 
 with DAG('log_maintenance', default_args=default_args, schedule_interval='0 0 * * SUN', catchup=False) as log_maintenance:
 
-    clean_command = str('.' + os.path.join(main_dir, "maintenance.py", "cleanup_logs.sh "))
+    clean_command = str('.' + os.path.join(main_dir, "maintenance", "cleanup_logs.sh "))
 
     check_feeds_task = BashOperator(
         task_id='log_maintenance',
