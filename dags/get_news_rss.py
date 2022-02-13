@@ -13,7 +13,7 @@ default_args = {
 'start_date'            : datetime(2022, 2, 10)
 }
 
-with DAG('get_news_rss', default_args=default_args, schedule_interval=None, catchup=False,
+with DAG('get_news_rss', default_args=default_args, schedule_interval='0 * * * *', catchup=False,
          template_searchpath=os.path.join(main_dir)) as news_grab_dag:
 
     check_feeds_task = BashOperator(
