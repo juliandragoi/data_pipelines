@@ -38,7 +38,7 @@ def get_news_links(auth):
     data = []
 
     try:
-        postgreSQL_select_Query = "select link from staging.news_rss;"
+        postgreSQL_select_Query = "select post_id, link from core.news;"
 
         cursor.execute(postgreSQL_select_Query)
         print("Selecting rows................")
